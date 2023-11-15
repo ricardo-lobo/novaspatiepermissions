@@ -10,7 +10,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0",
-        "spatie/laravel-permission": "^5.5",
+        "spatie/laravel-permission": "^6.0",
         "laravel/nova": "^4.0"
     },
     "autoload": {
@@ -30,5 +30,12 @@
         "sort-packages": true
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://nova.laravel.com"
+        }
+    ]
 }

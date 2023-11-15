@@ -24,7 +24,7 @@ trait PermissionResourceTrait
 	/**
 	 * Get the fields displayed by the resource.
 	 *
-	 * @param \Illuminate\Http\Request $request
+	 * @param  Request  $request
 	 *
 	 * @return array
 	 */
@@ -33,8 +33,6 @@ trait PermissionResourceTrait
 		$guardOptions = collect(config('auth.guards'))->mapWithKeys(function ($value, $key) {
 			return [$key => $key];
 		});
-
-		$userResource = Nova::resourceForModel(getModelForGuard($this->guard_name));
 
 		$roleResource = Nova::resourceForModel(app(PermissionRegistrar::class)->getRoleClass());
 
@@ -61,8 +59,6 @@ trait PermissionResourceTrait
 			DateTime::make(__('nova-spatie-permissions::lang.updated_at'), 'updated_at')->exceptOnForms(),
 
 			BelongsToMany::make($roleResource::label(), 'roles', $roleResource)->searchable(),
-
-			//MorphToMany::make($userResource::label(), 'users', $userResource)->searchable(),
 		];
 	}
 }

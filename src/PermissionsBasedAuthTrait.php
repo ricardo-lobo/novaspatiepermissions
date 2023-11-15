@@ -24,14 +24,14 @@ trait PermissionsBasedAuthTrait
 	 *
 	 * @param \Illuminate\Http\Request $request
 	 *
-	 * @return bool
 	 */
 	public function authorizeToViewAny(Request $request)
 	{
 		if (!static::authorizable()) {
 			return;
 		}
-		return $this->authorizeTo($request, 'viewAny');
+
+		$this->authorizeTo($request, 'viewAny');
 	}
 
 	/**
@@ -179,12 +179,12 @@ trait PermissionsBasedAuthTrait
 
 	public static function hasPermissionsTo(Request $request, $ability)
 	{
-	
+
 		if($request->GetRequestUri()==config('nova.path')."/login"){
 			return true;
 		}
-		
-		
+
+
 		if (isset(static::$permissionsForAbilities[$ability])) {
 			return $request->user()->can(static::$permissionsForAbilities[$ability]);
 		}

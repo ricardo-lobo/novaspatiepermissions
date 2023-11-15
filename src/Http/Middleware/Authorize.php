@@ -2,6 +2,8 @@
 
 namespace Itsmejoshua\Novaspatiepermissions\Http\Middleware;
 
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Laravel\Nova\Nova;
 use Itsmejoshua\Novaspatiepermissions\Novaspatiepermissions;
 
@@ -10,15 +12,19 @@ class Authorize
     /**
      * Handle the incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure(\Illuminate\Http\Request):mixed  $next
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
+     * @param  \Closure(Request):mixed  $next
+     * @return Response
      */
     public function handle($request, $next)
     {
         $tool = collect(Nova::registeredTools())->first([$this, 'matchesTool']);
 
-        return optional($tool)->authorize($request) ? $next($request) : abort(403);
+        if (optional($tool)->authorize($request)) {
+            return $next($request);
+        }
+
+        abort(403);
     }
 
     /**
@@ -27,7 +33,7 @@ class Authorize
      * @param  \Laravel\Nova\Tool  $tool
      * @return bool
      */
-    public function matchesTool($tool)
+    public function matchesTool($tool): bool
     {
         return $tool instanceof Novaspatiepermissions;
     }
